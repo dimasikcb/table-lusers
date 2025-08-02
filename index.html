@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турнирная сетка с лузерами</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #bb86fc;
+            --secondary-color: #03dac6;
+            --winner-color: #4caf50;
+            --loser-color: #f44336;
+            --match-border: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .tournament {
+            max-width: 100%;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .rounds-container {
+            display: flex;
+            gap: 25px;
+            padding-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .round {
+            min-width: 220px;
+        }
+        
+        .round-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            color: #000;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            position: sticky;
+            left: 0;
+        }
+        
+        .losers-round-title {
+            background: linear-gradient(90deg, var(--loser-color), #ff9800);
+        }
+        
+        .match {
+            background: var(--card-bg);
+            border: 1px solid var(--match-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .match:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        
+        .losers-match {
+            border-color: var(--loser-color);
+        }
+        
+        .player {
+            margin: 8px 0;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .loser-player:before {
+            background: var(--loser-color);
+        }
+        
+        .player:hover {
+            background: #333;
+            transform: translateX(5px);
+        }
+        
+        .player:hover:before {
+            width: 6px;
+        }
+        
+        .final {
+            border: 2px solid gold;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+        }
+        
+        .winner {
+            background: var(--winner-color) !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .loser {
+            background: var(--loser-color) !important;
+            color: white;
+        }
+        
+        .returning-player {
+            animation: return-glow 1.5s infinite alternate;
+        }
+        
+        @keyframes return-glow {
+            0% { box-shadow: 0 0 5px rgba(3, 218, 198, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(3, 218, 198, 0.8); }
+        }
+        
+        .connector {
+            position: absolute;
+            background: var(--accent-color);
+            z-index: -1;
+        }
+        
+        .loser-connector {
+            background: var(--loser-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="tournament">
+        <h1>🏆 Турнирная сетка с системой лузеров 🏆</h1>
+        
+        <div class="grid-container">
+            <!-- Основная сетка -->
+            <div>
+                <h2 style="color: var(--accent-color); text-align: center;">Основная сетка</h2>
+                <div class="rounds-container">
+                    <!-- 1/8 финала -->
+                    <div class="round">
+                        <div class="round-title">1/8 финала</div>
+                        
+                        <div class="match">
+                            <div class="player">Игрок 1</div>
+                            <div class="player">Игрок 2</div>
+                        </div>
+                        
+                        <div class="match">
+                            <div class="player">Игрок 3</div>
+                            <div class="player">Игрок 4</div>
+                        </div>
+                        
+                        <div class="match">
+                            <div class="player">Игрок 5</div>
+                            <div class="player">Игрок 6</div>
+                        </div>
+                        
+                        <div class="match">
+                            <div class="player">Игрок 7</div>
+                            <div class="player">Игрок 8</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 1/4 финала -->
+                    <div class="round">
+                        <div class="round-title">1/4 финала</div>
+                        
+                        <div class="match">
+                            <div class="player">Победитель 1/8 1</div>
+                            <div class="player">Победитель 1/8 2</div>
+                        </div>
+                        
+                        <div class="match">
+                            <div class="player">Победитель 1/8 3</div>
+                            <div class="player">Победитель 1/8 4</div>
+                        </div>
+                        
+                        <!-- Возвращающиеся игроки из сетки лузеров -->
+                        <div class="match">
+                            <div class="player returning-player">Лучший лузер 1</div>
+                            <div class="player returning-player">Лучший лузер 2</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Полуфиналы -->
+                    <div class="round">
+                        <div class="round-title">Полуфиналы</div>
+                        
+                        <div class="match">
+                            <div class="player">Победитель 1/4 1</div>
+                            <div class="player">Победитель 1/4 2</div>
+                        </div>
+                        
+                        <div class="match">
+                            <div class="player">Победитель 1/4 3</div>
+                            <div class="player">Победитель 1/4 4</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Финал -->
+                    <div class="round">
+                        <div class="round-title">ФИНАЛ</div>
+                        
+                        <div class="match final">
+                            <div class="player">Финалист 1</div>
+                            <div class="player">Финалист 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Сетка лузеров -->
+            <div>
+                <h2 style="color: var(--loser-color); text-align: center;">Сетка лузеров</h2>
+                <div class="rounds-container">
+                    <!-- Первый раунд лузеров -->
+                    <div class="round">
+                        <div class="round-title losers-round-title">Раунд 1</div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Проигравший 1/8 1</div>
+                            <div class="player loser-player">Проигравший 1/8 2</div>
+                        </div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Проигравший 1/8 3</div>
+                            <div class="player loser-player">Проигравший 1/8 4</div>
+                        </div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Проигравший 1/8 5</div>
+                            <div class="player loser-player">Проигравший 1/8 6</div>
+                        </div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Проигравший 1/8 7</div>
+                            <div class="player loser-player">Проигравший 1/8 8</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Второй раунд лузеров -->
+                    <div class="round">
+                        <div class="round-title losers-round-title">Раунд 2</div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Победитель Л1</div>
+                            <div class="player loser-player">Победитель Л2</div>
+                        </div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Победитель Л3</div>
+                            <div class="player loser-player">Победитель Л4</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Финал лузеров -->
+                    <div class="round">
+                        <div class="round-title losers-round-title">Финал лузеров</div>
+                        
+                        <div class="match losers-match">
+                            <div class="player loser-player">Победитель Л5</div>
+                            <div class="player loser-player">Победитель Л6</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Возвращение в основную сетку -->
+                    <div class="round">
+                        <div class="round-title" style="background: var(--secondary-color);">Возвращение</div>
+                        
+                        <div class="match">
+                            <div class="player returning-player">Финалист лузеров 1</div>
+                            <div class="player returning-player">Финалист лузеров 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: var(--card-bg); border-radius: 10px;">
+            <h3 style="color: var(--accent-color);">Как работает система:</h3>
+            <ul>
+                <li>Проигравшие в основной сетке попадают в сетку лузеров</li>
+                <li>Лучшие 2 игрока из сетки лузеров возвращаются в основную сетку</li>
+                <li>Возвращенные игроки начинают с 1/4 финала основной сетки</li>
+                <li>Всего 12 игроков участвуют в сетке лузеров (8 из 1/8 финала + 4 из 1/4)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
